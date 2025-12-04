@@ -463,6 +463,119 @@ LambdaIamLabStack
 
 ---
 
+---
+
+## 🖥️ TERMINAL COMMANDS REFERENCE
+
+### Section 1: Setup & Prerequisites (0:00 - 1:00)
+```bash
+python3 --version
+node --version
+aws --version
+aws sts get-caller-identity
+```
+
+### Section 2: Project Structure (1:00 - 2:30)
+```bash
+cd /Users/tusshar/aws-iam-role/lambda-iam-lab
+tree -L 2 -I '__pycache__|*.pyc|.venv'
+cat requirements.txt
+find lambda_iam_lab -name "*.py" -type f -exec wc -l {} + | sort -n
+```
+
+### Section 3: Virtual Environment (2:30 - 4:00)
+```bash
+source .venv/bin/activate
+which python
+cdk --version
+pip list | grep -E "aws-cdk|constructs"
+```
+
+### Section 4: Code Walkthrough (4:00 - 10:00)
+```bash
+cat lambda_iam_lab/lambda_iam_lab_stack.py
+cat lambda_iam_lab/constructs/iam_roles.py
+cat lambda_iam_lab/constructs/s3_bucket.py
+cat lambda_iam_lab/constructs/lambda_function.py
+cat lambda_iam_lab/lambda_code/handler.py
+cat app.py
+```
+
+### Section 5: CDK Synthesis (10:00 - 11:00)
+```bash
+cdk synth --quiet
+cdk synth 2>&1 | grep -i "error"
+```
+
+### Section 6: Bootstrap & Deploy (11:00 - 16:00)
+```bash
+cdk bootstrap
+cdk deploy
+# When prompted, type: y and press Enter
+```
+
+### Section 7: Verification (16:00 - 17:30)
+```bash
+aws s3 ls | grep vjeai
+aws s3api list-buckets --query "Buckets[?contains(Name, 'vjeai')].Name"
+aws iam list-roles --query "Roles[?contains(RoleName, 'vjeai')].RoleName" --output table
+aws iam get-role --role-name vjeai-unified-role --query "Role.[RoleName, Arn, CreateDate]"
+aws lambda list-functions --query "Functions[?contains(FunctionName, 'vjeai')].FunctionName" --output table
+aws lambda get-function --function-name vjeai-s3-processor --query "Configuration.[FunctionName, Runtime, Role, Timeout, MemorySize]"
+```
+
+### Section 8: Test Upload to S3 (17:30 - 18:30)
+```bash
+echo "This is a test file for vjeai Lambda" > testfile.txt
+aws s3 cp testfile.txt s3://vjeai-data-bucket/
+aws s3 ls s3://vjeai-data-bucket/
+aws s3 cp s3://vjeai-data-bucket/testfile.txt testfile-downloaded.txt
+cat testfile-downloaded.txt
+```
+
+### Section 9: CloudWatch Logs (18:30 - 19:00)
+```bash
+aws logs describe-log-groups --query "logGroups[?contains(logGroupName, 'vjeai')].logGroupName"
+aws logs describe-log-streams --log-group-name /aws/lambda/vjeai-s3-processor --query "logStreams[0].[logStreamName, creationTime]"
+aws logs tail /aws/lambda/vjeai-s3-processor --follow
+```
+
+### Section 10: Cleanup (19:00 - 20:00)
+```bash
+aws cloudformation list-stacks --query "StackSummaries[?contains(StackName, 'LambdaIamLab')].StackName"
+cdk destroy
+# When prompted, type: y and press Enter
+aws s3 ls | grep vjeai  # Should be empty
+aws iam list-roles --query "Roles[?contains(RoleName, 'vjeai')].RoleName"  # Should be empty
+aws lambda list-functions --query "Functions[?contains(FunctionName, 'vjeai')].FunctionName"  # Should be empty
+```
+
+---
+
+## 🎬 RECORDING TIPS
+
+1. **Clear Terminal Before Starting**
+   ```bash
+   clear
+   ```
+
+2. **Increase Font Size** - Make it readable!
+   - Terminal → Preferences → Text Size: 16-18pt
+
+3. **Run Commands Slowly** - Pause after each command
+
+4. **Explain While Running** - Give context for what each command does
+
+5. **Copy/Paste Long Commands** - Avoid typos
+
+6. **Use `--quiet` flags** - Keep output clean
+
+7. **Pipe to `grep`** - Filter to show only relevant info
+
+8. **Take Screenshots** - Save key outputs for editing
+
+---
+
 ## 🎬 START RECORDING!
 
 You're all set. Use this script as a guide and make it your own. Good luck with your YouTube video! 🚀

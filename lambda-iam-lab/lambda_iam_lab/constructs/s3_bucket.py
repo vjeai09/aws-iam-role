@@ -8,7 +8,8 @@ class S3BucketConstruct(Construct):
 
         self.bucket = s3.Bucket(
             self,
-            "DataBucket",
+            "VjeaiDataBucket",
+            bucket_name="vjeai-data-bucket",
             removal_policy=RemovalPolicy.DESTROY,
             auto_delete_objects=True,
             versioned=False,

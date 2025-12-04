@@ -16,7 +16,8 @@ class LambdaFunctionConstruct(Construct):
 
         self.function = lambda_.Function(
             self,
-            "S3ProcessorFunction",
+            "VjeaiS3ProcessorFunction",
+            function_name="vjeai-s3-processor",
             runtime=lambda_.Runtime.PYTHON_3_11,
             handler="index.lambda_handler",
             code=lambda_.Code.from_inline(LAMBDA_HANDLER_CODE),

@@ -8,7 +8,8 @@ class IAMRolesConstruct(Construct):
 
         self.lambda_role = iam.Role(
             self,
-            "LambdaExecutionRole",
+            "VjeaiLambdaExecutionRole",
+            role_name="vjeai-lambda-execution-role",
             assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
             managed_policies=[
                 iam.ManagedPolicy.from_aws_managed_policy_name(
@@ -19,7 +20,8 @@ class IAMRolesConstruct(Construct):
 
         self.s3_access_role = iam.Role(
             self,
-            "S3AccessRole",
+            "VjeaiS3AccessRole",
+            role_name="vjeai-s3-access-role",
             assumed_by=iam.AccountPrincipal(self.node.scope.account),
         )
 

@@ -13,10 +13,10 @@ class LambdaIamLabStack(Stack):
         # Create S3 Bucket
         s3_bucket = S3BucketConstruct(self, "VjeaiS3Bucket")
 
-        # Create IAM Roles
+        # Create IAM Role
         iam_roles = IAMRolesConstruct(self, "VjeaiIAMRoles")
 
-        # Grant S3 access to roles
+        # Grant S3 access to role
         iam_roles.grant_s3_access(s3_bucket.bucket)
 
         # Create Lambda Function
@@ -24,7 +24,7 @@ class LambdaIamLabStack(Stack):
             self,
             "VjeaiLambdaFunction",
             bucket_name=s3_bucket.bucket_name,
-            role=iam_roles.lambda_role,
+            role=iam_roles.unified_role,
         )
 
         # Create Outputs
@@ -33,6 +33,5 @@ class LambdaIamLabStack(Stack):
             "VjeaiOutputs",
             bucket_name=s3_bucket.bucket_name,
             lambda_function_name=lambda_function.function_name,
-            lambda_role_arn=iam_roles.lambda_role.role_arn,
-            s3_role_arn=iam_roles.s3_access_role.role_arn,
+            role_arn=iam_roles.unified_role.role_arn,
         )

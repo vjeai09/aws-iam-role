@@ -1,6 +1,43 @@
+# AWS CDK Infrastructure
 aws-cdk-lib==2.215.0
 constructs>=10.0.0,<11.0.0
-kaggle
-pandas
-numpy
-networkx
+
+# AWS SDK
+boto3>=1.34.0
+
+# Data Science & Analytics
+pandas>=2.0.0
+numpy>=1.24.0
+kaggle>=1.6.0
+
+# Graph Analytics
+networkx>=3.0
+
+# API & Testing
+requests>=2.31.0
+
+# Visualization (optional for local testing)
+plotly>=5.18.0
+matplotlib>=3.8.0
+
+# Note: GPU packages (cuDF, cuML, cuGraph) are included in the
+# RAPIDS container image for AWS Batch and not needed locally:
+# - cudf (GPU DataFrame)
+# - cuml (GPU ML algorithms)
+# - cugraph (GPU graph analytics)
+# These run only in the NVIDIA RAPIDS Docker container on GPU instances
+
+
+# Lambda Function Requirements
+# Use this for packaging Lambda deployment packages
+
+# AWS SDK (included in Lambda runtime, but specify version for local testing)
+boto3>=1.34.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Note: Keep Lambda packages minimal to reduce cold start time
+# Heavy processing (GPU work) should be done in AWS Batch, not Lambda
+

@@ -1,0 +1,12 @@
+# Lambda Function Requirements
+# Use this for packaging Lambda deployment packages
+
+# AWS SDK (included in Lambda runtime, but specify version for local testing)
+boto3>=1.34.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Note: Keep Lambda packages minimal to reduce cold start time
+# Heavy processing (GPU work) should be done in AWS Batch, not Lambda
